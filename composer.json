@@ -1,0 +1,19 @@
+{
+    "name": "mattwhittingham/Chronic-PHP",
+    "type": "library",
+    "description": "Chronic natural language date parsing library",
+    "keywords": ["chronic"],
+    "homepage": "https://github.com/mattwhittingham/Chronic-PHP",
+    "authors": [
+        {
+            "name": "Matthew Whittingham",
+            "email": "mattwhittingham@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": { "Chronic": "lib/", "StringScanner": "lib/" }
+    }
+}
