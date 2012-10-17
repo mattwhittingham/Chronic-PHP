@@ -34,5 +34,62 @@ class Scalar extends Tag
         return null;
     }
 
+    static function scanForDays(Token $token, $postToken)
+    {
+        if(preg_match('/^\d\d?$/', $token->getWord()))
+        {
+            $toi = (int)$token->getWord();
 
+            if ( ! ($toi > 31 || $toi < 1 || ($postToken && in_array($postToken->getWord(), self::$DAY_PORTIONS))))
+            {
+                return new ScalarDay($toi);
+            }
+        }
+
+        return null;
+    }
+
+    static function scanForMonths(Token $token, $postToken)
+    {
+        if(preg_match('/^\d\d?$/', $token->getWord()))
+        {
+            $toi = (int)$token->getWord();
+
+            if ( ! ($toi > 12 || $toi < 1 || ($postToken && in_array($postToken->getWord(), self::$DAY_PORTIONS))))
+            {
+                return new ScalarMonth($toi);
+            }
+        }
+
+        return null;
+    }
+
+    static function scanForYears(Token $token, $postToken, $options)
+    {
+        if(preg_match('/^([1-9]\d)?\d\d?$/', $token->getWord()))
+        {
+            if( ! ($postToken && in_array($token->getWord(), self::$DAY_PORTIONS)))
+            {
+                $year = self::makeYear((int)$token->getWord(), $options['ambiguous_year_future_bias']);
+                return new ScalarYear($year);
+            }
+        }
+
+        return null;
+    }
+
+    static function makeYear($year, $bias)
+    {
+        if (strlen($year) > 2) return $year;
+
+        $now = getdate();
+        $startYear = $now['year'] - $bias;
+        $century = ($startYear / 100) * 100;
+        $fullYear = $century + $year;
+
+        if ($fullYear < $startYear)
+            $fullYear += 100;
+
+        return $fullYear;
+    }
 }
