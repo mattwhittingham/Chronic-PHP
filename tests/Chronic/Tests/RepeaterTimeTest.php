@@ -64,7 +64,7 @@ class RepeaterTimeTest extends \PHPUnit_Framework_TestCase
         $t = new RepeaterTime('4');
 
         $type = $t->getType();
-        var_dump($type);
+
         $this->assertEquals(14400, $t->getType()->getTime());
 
         $t = new RepeaterTime('14');
