@@ -84,7 +84,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $tokens = array(new Chronic\Token('may'));
         $tokens[0]->tag(new RepeaterMonthName(':may'));
 
-        // $this->assertFalse($handler->match($tokens, Chronic::definitions()));
+        $this->assertFalse($handler->match($tokens, Chronic::definitions()));
 
         $tokens[] = new Chronic\Token('27');
         $tokens[1]->tag(new ScalarDay(27));
