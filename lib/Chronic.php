@@ -94,60 +94,60 @@ class Chronic {
 
     public static function definitions($options = array())
     {
-        $options['endian_precedence'] = $options['endian_precedence'] ?: array('middle', 'little');
+        $options['endian_precedence'] = isset($options['endian_precedence']) ? $options['endian_precedence'] : array('middle', 'little');
 
         self::$definitions = self::$definitions  ?: array(
             'time' => array(
-                new Handler(array('repeater_time', 'repeater_day_portion'), null)
+                new Handler(array(':repeater_time', ':repeater_day_portion'), null)
             ),
             'date' => array(
-                new Handler(array('repeater_day_name', 'repeater_month_name', 'scalar_day', 'repeater_time', 'separator_slash_or_dash', 'time_zone', 'scalar_year'), 'handle_rdn_rmn_sd_t_tz_sy'),
-                new Handler(array('repeater_day_name', 'repeater_month_name', 'scalar_day'), 'handle_rdn_rmn_sd'),
-                new Handler(array('repeater_day_name', 'repeater_month_name', 'scalar_day', 'scalar_year'), 'handle_rdn_rmn_sd_sy'),
-                new Handler(array('repeater_day_name', 'repeater_month_name', 'ordinal_day'), 'handle_rdn_rmn_od'),
-                new Handler(array('scalar_year', 'separator_slash_or_dash', 'scalar_month', 'separator_slash_or_dash', 'scalar_day', 'repeater_time', 'time_zone'), 'handle_sy_sm_sd_t_tz'),
-                new Handler(array('repeater_month_name', 'scalar_day', 'scalar_year'), 'handle_rmn_sd_sy'),
-                new Handler(array('repeater_month_name', 'ordinal_day', 'scalar_year'), 'handle_rmn_od_sy'),
-                new Handler(array('repeater_month_name', 'scalar_day', 'scalar_year', 'separator_at', 'time?'), 'handle_rmn_sd_sy'),
-                new Handler(array('repeater_month_name', 'ordinal_day', 'scalar_year', 'separator_at', 'time?'), 'handle_rmn_od_sy'),
-                new Handler(array('repeater_month_name', 'scalar_day', 'separator_at', 'time'), 'handleRepeaterMonthNameScalarDay'),
-                new Handler(array('repeater_time', 'repeater_day_portion', 'separator_on', 'repeater_month_name', 'scalar_day'), 'handle_rmn_sd_on'),
-                new Handler(array('repeater_month_name', 'ordinal_day', 'separator_at', 'time'), 'handle_rmn_od'),
-                new Handler(array('ordinal_day', 'repeater_month_name', 'scalar_year', 'separator_at', 'time?'), 'handle_od_rmn_sy'),
-                new Handler(array('ordinal_day', 'repeater_month_name', 'separator_at', 'time?'), 'handle_od_rmn'),
-                new Handler(array('scalar_year', 'repeater_month_name', 'ordinal_day'), 'handle_sy_rmn_od'),
-                new Handler(array('repeater_time', 'repeater_day_portion', 'separator_on', 'repeater_month_name', 'ordinal_day'), 'handle_rmn_od_on'),
-                new Handler(array('repeater_month_name', 'scalar_year'), 'handle_rmn_sy'),
-                new Handler(array('scalar_day', 'repeater_month_name', 'scalar_year', 'separator_at', 'time?'), 'handle_sd_rmn_sy'),
-                new Handler(array('scalar_day', 'repeater_month_name', 'separator_at', 'time?'), 'handle_sd_rmn'),
-                new Handler(array('scalar_year', 'separator_slash_or_dash', 'scalar_month', 'separator_slash_or_dash', 'scalar_day', 'separator_at', 'time?'), 'handle_sy_sm_sd'),
-                new Handler(array('scalar_month', 'separator_slash_or_dash', 'scalar_day'), 'handle_sm_sd'),
-                new Handler(array('scalar_month', 'separator_slash_or_dash', 'scalar_year'), 'handle_sm_sy')
+                new Handler(array(':repeater_day_name', ':repeater_month_name', ':scalar_day', ':repeater_time', ':separator_slash_or_dash', ':time_zone', ':scalar_year'), ':handle_rdn_rmn_sd_t_tz_sy'),
+                new Handler(array(':repeater_day_name', ':repeater_month_name', ':scalar_day'), ':handle_rdn_rmn_sd'),
+                new Handler(array(':repeater_day_name', ':repeater_month_name', ':scalar_day', ':scalar_year'), ':handle_rdn_rmn_sd_sy'),
+                new Handler(array(':repeater_day_name', ':repeater_month_name', ':ordinal_day'), ':handle_rdn_rmn_od'),
+                new Handler(array(':scalar_year', ':separator_slash_or_dash', ':scalar_month', ':separator_slash_or_dash', ':scalar_day', ':repeater_time', ':time_zone'), ':handle_sy_sm_sd_t_tz'),
+                new Handler(array(':repeater_month_name', ':scalar_day', ':scalar_year'), ':handle_rmn_sd_sy'),
+                new Handler(array(':repeater_month_name', ':ordinal_day', ':scalar_year'), ':handle_rmn_od_sy'),
+                new Handler(array(':repeater_month_name', ':scalar_day', ':scalar_year', ':separator_at', 'time?'), ':handle_rmn_sd_sy'),
+                new Handler(array(':repeater_month_name', ':ordinal_day', ':scalar_year', ':separator_at', 'time?'), ':handle_rmn_od_sy'),
+                new Handler(array(':repeater_month_name', ':scalar_day', ':separator_at', 'time?'), ':handleRepeaterMonthNameScalarDay'),
+                new Handler(array(':repeater_time', ':repeater_day_portion', ':separator_on', ':repeater_month_name', ':scalar_day'), ':handle_rmn_sd_on'),
+                new Handler(array(':repeater_month_name', ':ordinal_day', ':separator_at', ':time'), ':handle_rmn_od'),
+                new Handler(array(':ordinal_day', ':repeater_month_name', ':scalar_year', ':separator_at', 'time?'), ':handle_od_rmn_sy'),
+                new Handler(array(':ordinal_day', ':repeater_month_name', ':separator_at', 'time?'), ':handle_od_rmn'),
+                new Handler(array(':scalar_year', ':repeater_month_name', ':ordinal_day'), ':handle_sy_rmn_od'),
+                new Handler(array(':repeater_time', ':repeater_day_portion', ':separator_on', ':repeater_month_name', ':ordinal_day'), ':handle_rmn_od_on'),
+                new Handler(array(':repeater_month_name', ':scalar_year'), ':handle_rmn_sy'),
+                new Handler(array(':scalar_day', ':repeater_month_name', ':scalar_year', ':separator_at', 'time?'), ':handle_sd_rmn_sy'),
+                new Handler(array(':scalar_day', ':repeater_month_name', ':separator_at', 'time?'), ':handle_sd_rmn'),
+                new Handler(array(':scalar_year', ':separator_slash_or_dash', ':scalar_month', ':separator_slash_or_dash', ':scalar_day', ':separator_at', 'time?'), ':handle_sy_sm_sd'),
+                new Handler(array(':scalar_month', ':separator_slash_or_dash', ':scalar_day'), ':handle_sm_sd'),
+                new Handler(array(':scalar_month', ':separator_slash_or_dash', ':scalar_year'), ':handle_sm_sy')
             ),
             // tonight at 7pm
             'anchor' => array(
-                new Handler(array('grabber', 'repeater', 'separator_at', 'repeater', 'repeater'), 'handle_r'),
-                new Handler(array('grabber', 'repeater', 'repeater', 'separator_at', 'repeater', 'repeater'), 'handle_r'),
-                new Handler(array('repeater', 'grabber', 'repeater'), 'handle_r_g_r')
+                new Handler(array(':grabber', ':repeater', ':separator_at', ':repeater', ':repeater'), ':handle_r'),
+                new Handler(array(':grabber', ':repeater', ':repeater', ':separator_at', ':repeater', ':repeater'), ':handle_r'),
+                new Handler(array(':repeater', ':grabber', ':repeater'), ':handle_r_g_r')
             ),
 
             // 3 weeks from now, in 2 months
             'arrow' => array(
-                new Handler(array('scalar', 'repeater', 'pointer'), 'handle_s_r_p'),
-                new Handler(array('pointer', 'scalar', 'repeater'), 'handle_p_s_r'),
-                new Handler(array('scalar', 'repeater', 'pointer', 'anchor?'), 'handle_s_r_p_a')
+                new Handler(array(':scalar', ':repeater', ':pointer'), ':handle_s_r_p'),
+                new Handler(array(':pointer', ':scalar', ':repeater'), ':handle_p_s_r'),
+                new Handler(array(':scalar', ':repeater', ':pointer', ':anchor?'), ':handle_s_r_p_a')
             ),
 
             // 3rd week in march
             'narrow' => array(
-                new Handler(array('ordinal', 'repeater', 'separator_in', 'repeater'), 'handle_o_r_s_r'),
-                new Handler(array('ordinal', 'repeater', 'grabber', 'repeater'), 'handle_o_r_g_r')
+                new Handler(array(':ordinal', ':repeater', ':separator_in', ':repeater'), ':handle_o_r_s_r'),
+                new Handler(array(':ordinal', ':repeater', ':grabber', ':repeater'), ':handle_o_r_g_r')
             )           
         );
 
         $endians = array(
-            new Handler(array('scalar_month', 'separator_slash_or_dash', 'scalar_day', 'separator_slash_or_dash', 'scalar_year', 'separator_at', 'time?'), 'handle_sm_sd_sy'),
-            new Handler(array('scalar_day', 'separator_slash_or_dash', 'scalar_month', 'separator_slash_or_dash', 'scalar_year', 'separator_at', 'time?'), 'handle_sd_sm_sy')
+            new Handler(array(':scalar_month', ':separator_slash_or_dash', ':scalar_day', ':separator_slash_or_dash', ':scalar_year', ':separator_at', 'time?'), ':handle_sm_sd_sy'),
+            new Handler(array(':scalar_day', ':separator_slash_or_dash', ':scalar_month', ':separator_slash_or_dash', ':scalar_year', ':separator_at', 'time?'), ':handle_sd_sm_sy')
         );
 
         switch ($endian = (isset($options['endian_precedence']) && isset($options['endian_precedence'][0])) ? $options['endian_precedence'][0] : null)
@@ -230,6 +230,36 @@ class Chronic {
         }
 
         return getdate(mktime($hour, $minute, $second, $month, $day, $year));
+    }
+
+    public static function fullyQualifiedNameSpaceLookup($className)
+    {
+        switch ($className) {
+            case 'Repeater':
+            case 'Grabber': 
+            case 'MiniDate': 
+            case 'Scalar': 
+            case 'ScalarDay': 
+            case 'ScalarMonth':
+            case 'ScalarYear':
+            case 'Season':
+                return 'Chronic\\'.$className;
+            case 'RepeaterDay':
+            case 'RepeaterDayName':
+            case 'RepeaterDayPortion':
+            case 'RepeaterFortnight':
+            case 'RepeaterHour':
+            case 'RepeaterMonth':
+            case 'RepeaterMonthName':
+            case 'RepeaterSeason':
+            case 'RepeaterSeasonName':
+            case 'RepeaterSecond':
+            case 'RepeaterTime':
+            case 'RepeaterWeek':
+            case 'RepeaterYear':
+                return 'Chronic\\Repeater\\'.$className;
+            default: return $className;
+        }
     }
 
     private static function tokenize($text, $options)

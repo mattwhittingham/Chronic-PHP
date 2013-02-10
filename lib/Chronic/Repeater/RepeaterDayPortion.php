@@ -12,12 +12,12 @@ namespace Chronic\Repeater;
 class RepeaterDayPortion extends \Chronic\Repeater
 {
     public static $PORTIONS = array(
-            'am' => array('begin' => 0, 'end' => 43199),
-            'pm' => array('begin' => 43200, 'end' => 86399),
-            'morning' => array('begin' => 21600, 'end' => 43200), // 6am-12am
-            'afternoon' => array('begin' => 46800, 'end' => 61200), // 1pm-5pm
-            'evening' => array('begin' => 61200, 'end' => 72000), // 5pm-8pm
-            'night' => array('begin' => 72000, 'end' => 86400) // 8pm-12pm
+            ':am' => array('begin' => 0, 'end' => 43199),
+            ':pm' => array('begin' => 43200, 'end' => 86399),
+            ':morning' => array('begin' => 21600, 'end' => 43200), // 6am-12am
+            ':afternoon' => array('begin' => 46800, 'end' => 61200), // 1pm-5pm
+            ':evening' => array('begin' => 61200, 'end' => 72000), // 5pm-8pm
+            ':night' => array('begin' => 72000, 'end' => 86400) // 8pm-12pm
     );
 
     public $_range;

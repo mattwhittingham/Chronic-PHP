@@ -1,6 +1,6 @@
 <?php
 /**
- * This program is free software. It comes without any warranty, to
+ * This program is free software. It comes without any warranty, to 
  * the extent permitted by applicable law. You can redistribute it
  * and/or modify it under the terms of the Do What The Fuck You Want
  * To Public License, Version 2, as published by Sam Hocevar. See
@@ -8,6 +8,7 @@
  */
 
 namespace Chronic;
+
 
 class Handler
 {
@@ -33,36 +34,41 @@ class Handler
             if($optional)
                 $name = substr($name, 0, -1);
 
-            switch($element)
-            {
-                case 'Symbol':
-                    if ($this->tags_match($name, $tokens, $token_index))
-                    {
-                        $token_index++;
-                        continue;
-                    }
-                    elseif( $optional ){
-                        continue;
-                    } else {
-                        return false;
-                    }
-                case 'String':
-                    if($optional && $token_index === count($tokens))
-                        return true;
-                    // TODO: Finish this section
-                    if(array_key_exists($name, $definitions)){
-                        $sub_handlers = $definitions[$name];
-                    }
-                    else {
-                        throw new \Exception("Invalid subset $name specified");
-                    }
 
-                    foreach($sub_handlers as $sub_handler)
-                        if($sub_handler->match(array_slice($tokens, $token_index, count($tokens)), $definitions))
-                            return true;
-                    break;
-                default:
-                    throw new \Exception('Invalid match type: '.get_class($element));
+            if ( ! is_string($element)) {
+                throw new \Exception('Invalid match type: '.gettype($element));
+            }
+
+            // is symbol
+            if (substr($element, 0, 1) == ':') 
+            {
+                if ($this->tags_match($name, $tokens, $token_index))
+                {
+                    $token_index++;
+                    continue;
+                }
+                elseif( $optional ){
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+            else{
+                if($optional && $token_index === count($tokens))
+                    return true;
+
+                // TODO: Finish this section
+                if(array_key_exists($name, $definitions)){
+                    $sub_handlers = $definitions[$name];
+                }
+                else {
+                    throw new \Exception("Invalid subset $name specified");
+                }
+
+                foreach($sub_handlers as $sub_handler)
+                    if($sub_handler->match(array_slice($tokens, $token_index, count($tokens)), $definitions))
+                        return true;
+                break;
             }
         }
 
@@ -84,13 +90,14 @@ class Handler
  
     private function tags_match($name, $tokens, $token_index)
     {
-        $klass = preg_replace_callback('/(?:^|_)(.)/', function($matches){ return strtoupper($matches[0]); }, $name);
+        $klass = preg_replace_callback('/(?:^|_)(.)/', function($matches){ return strtoupper($matches[0]); }, ltrim($name, ':'));
+        $klass = \Chronic::fullyQualifiedNameSpaceLookup($klass);
 
-        if ($tokens[$token_index])
+        if (isset($tokens[$token_index]))
         {
-            foreach ($tokens[$token_index]->tags as $tag)
+            foreach ($tokens[$token_index]->getTags() as $tag)
             {
-                return is_a($tag, $klass);
+                return $tag instanceof $klass;
             }
         }
 
@@ -106,4 +113,6 @@ class Handler
     {
         return $this->_pattern;
     }
+
+
 }
