@@ -91,6 +91,7 @@ class Handler
     private function tags_match($name, $tokens, $token_index)
     {
         $klass = preg_replace_callback('/(?:^|_)(.)/', function($matches){ return strtoupper($matches[0]); }, ltrim($name, ':'));
+        $klass = str_replace('_', '', $klass);
         $klass = \Chronic::fullyQualifiedNameSpaceLookup($klass);
 
         if (isset($tokens[$token_index]))
