@@ -37,18 +37,26 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $tokens[1]->tag(new RepeaterDayPortion(':afternoon'));
 
         $this->assertFalse($handler->match($tokens, Chronic::definitions()));
-
-    // tokens << Chronic::Token.new('afternoon')
-    // tokens[1].tag(Chronic::RepeaterDayPortion.new(:afternoon))
-
-    // assert !handler.match(tokens, Chronic.definitions)
-        $this->markTestIncomplete();
     }
 
     function test_handle_class_2()
     {
+        $handler = new Chronic\Handler(array(':repeater', ':repeater?'), ':handler');
 
-        $this->markTestIncomplete();
+        $tokens = array(new Chronic\Token('friday'));
+        $tokens[0]->tag(new RepeaterDayName(':friday'));
+
+        $this->assertTrue($handler->match($tokens, Chronic::definitions()));
+
+        $tokens[] = new Chronic\Token('afternoon');
+        $tokens[1]->tag(new RepeaterDayPortion(':afternoon'));
+
+        $this->assertTrue($handler->match($tokens, Chronic::definitions()));
+
+        $tokens[] = new Chronic\Token('afternoon');
+        $tokens[2]->tag(new RepeaterDayPortion(':afternoon'));
+
+        $this->assertFalse($handler->match($tokens, Chronic::definitions()));
     }
 
     function test_handle_class_3()
