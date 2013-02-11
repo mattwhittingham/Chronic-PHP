@@ -58,17 +58,17 @@ class Handler
                     return true;
 
                 // TODO: Finish this section
-                if(array_key_exists($name, $definitions)){
-                    $sub_handlers = $definitions[$name];
+                if(array_key_exists(':'.$name, $definitions)){
+                    $sub_handlers = $definitions[':'.$name];
                 }
                 else {
                     throw new \Exception("Invalid subset $name specified");
                 }
 
-                foreach($sub_handlers as $sub_handler)
+                foreach($sub_handlers as $sub_handler){
                     if($sub_handler->match(array_slice($tokens, $token_index, count($tokens)), $definitions))
                         return true;
-                break;
+                }
             }
         }
 

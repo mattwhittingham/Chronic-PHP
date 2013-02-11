@@ -13,7 +13,9 @@ use \Chronic;
 use \Chronic\Repeater\RepeaterDayName;
 use \Chronic\Repeater\RepeaterDayPortion;
 use \Chronic\Repeater\RepeaterMonthName;
+use \Chronic\Repeater\RepeaterTime;
 use \Chronic\ScalarDay;
+
 
 
 date_default_timezone_set('America/Winnipeg');
@@ -64,7 +66,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     function test_handle_class_3()
     {
-        $handler = new Chronic\Handler(array(':repeater', ':time?'), ':handler');
+        $handler = new Chronic\Handler(array(':repeater', 'time?'), ':handler');
 
         $tokens = array(new Chronic\Token('friday'));
         $tokens[0]->tag(new RepeaterDayName(':friday'));
@@ -79,7 +81,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     function test_handle_class_4()
     {
-        $handler = new Chronic\Handler(array(':repeater_month_name', ':scalar_day', ':time?'), ':handler');
+        $handler = new Chronic\Handler(array(':repeater_month_name', ':scalar_day', 'time?'), ':handler');
 
         $tokens = array(new Chronic\Token('may'));
         $tokens[0]->tag(new RepeaterMonthName(':may'));
@@ -94,15 +96,23 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     function test_handle_class_5()
     {
-        $this->markTestIncomplete();
+        $handler = new Chronic\Handler(array(':repeater', 'time?'), ':handler');
+
+        $tokens = array(new Chronic\Token('friday'));
+        $tokens[0]->tag(new RepeaterDayName(':friday'));
+
+        $tokens[] = new Chronic\Token('5:00');
+        $tokens[1]->tag(new RepeaterTime('5:00'));
+
+        $this->assertTrue($handler->match($tokens, Chronic::definitions()));
+
+        $tokens[] = new Chronic\Token('afternoon');
+        $tokens[2]->tag(new RepeaterDayPortion(':afternoon'));
+
+        $this->assertTrue($handler->match($tokens, Chronic::definitions()));
     }
 
     function test_handle_class_6()
-    {
-        $this->markTestIncomplete();
-    }
-
-    function test_handle_class_7()
     {
         $this->markTestIncomplete();
     }

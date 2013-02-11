@@ -97,10 +97,10 @@ class Chronic {
         $options['endian_precedence'] = isset($options['endian_precedence']) ? $options['endian_precedence'] : array('middle', 'little');
 
         self::$definitions = self::$definitions  ?: array(
-            'time' => array(
-                new Handler(array(':repeater_time', ':repeater_day_portion'), null)
+            ':time' => array(
+                new Handler(array(':repeater_time', ':repeater_day_portion?'), null)
             ),
-            'date' => array(
+            ':date' => array(
                 new Handler(array(':repeater_day_name', ':repeater_month_name', ':scalar_day', ':repeater_time', ':separator_slash_or_dash', ':time_zone', ':scalar_year'), ':handle_rdn_rmn_sd_t_tz_sy'),
                 new Handler(array(':repeater_day_name', ':repeater_month_name', ':scalar_day'), ':handle_rdn_rmn_sd'),
                 new Handler(array(':repeater_day_name', ':repeater_month_name', ':scalar_day', ':scalar_year'), ':handle_rdn_rmn_sd_sy'),
@@ -125,21 +125,21 @@ class Chronic {
                 new Handler(array(':scalar_month', ':separator_slash_or_dash', ':scalar_year'), ':handle_sm_sy')
             ),
             // tonight at 7pm
-            'anchor' => array(
+            ':anchor' => array(
                 new Handler(array(':grabber', ':repeater', ':separator_at', ':repeater', ':repeater'), ':handle_r'),
                 new Handler(array(':grabber', ':repeater', ':repeater', ':separator_at', ':repeater', ':repeater'), ':handle_r'),
                 new Handler(array(':repeater', ':grabber', ':repeater'), ':handle_r_g_r')
             ),
 
             // 3 weeks from now, in 2 months
-            'arrow' => array(
+            ':arrow' => array(
                 new Handler(array(':scalar', ':repeater', ':pointer'), ':handle_s_r_p'),
                 new Handler(array(':pointer', ':scalar', ':repeater'), ':handle_p_s_r'),
                 new Handler(array(':scalar', ':repeater', ':pointer', ':anchor?'), ':handle_s_r_p_a')
             ),
 
             // 3rd week in march
-            'narrow' => array(
+            ':narrow' => array(
                 new Handler(array(':ordinal', ':repeater', ':separator_in', ':repeater'), ':handle_o_r_s_r'),
                 new Handler(array(':ordinal', ':repeater', ':grabber', ':repeater'), ':handle_o_r_g_r')
             )           
