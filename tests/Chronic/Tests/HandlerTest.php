@@ -13,8 +13,11 @@ use \Chronic;
 use \Chronic\Repeater\RepeaterDayName;
 use \Chronic\Repeater\RepeaterDayPortion;
 use \Chronic\Repeater\RepeaterMonthName;
+use \Chronic\Repeater\RepeaterYear;
 use \Chronic\Repeater\RepeaterTime;
+use \Chronic\Pointer;
 use \Chronic\ScalarDay;
+use \Chronic\Scalar;
 
 
 
@@ -114,6 +117,18 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     function test_handle_class_6()
     {
-        $this->markTestIncomplete();
+        $handler = new Chronic\Handler(array(':scalar', ':repeater', ':pointer'), ':handler');
+
+        $tokens = array(
+            new Chronic\Token('3'),
+            new Chronic\Token('years'),
+            new Chronic\Token('past')
+        );
+
+        $tokens[0]->tag(new Scalar(3));
+        $tokens[1]->tag(new RepeaterYear(':year'));
+        $tokens[2]->tag(new Pointer(':past'));
+
+        $this->assertTrue($handler->match($tokens, Chronic::definitions()));
     }
 }
